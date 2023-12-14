@@ -8,7 +8,7 @@ Account Abstraction moves crypto from the current approach of a simple EOA accou
 
 The shift from EOAs to smart contract wallets with arbitrary verification logic paves the way for a series of improvements to wallet designs, as well as reducing complexity for end users.
 
-Please see a [very good introduction to AA by Alchemy](https://www.alchemy.com//blog/account-abstraction).
+Please see [a very good introduction to AA by Alchemy](https://www.alchemy.com//blog/account-abstraction).
 
 ## Alchemy
 Alchemy provides a ERC-4377 service that can be used to send transactions to Ethereum-compatible chains.

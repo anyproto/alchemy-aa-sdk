@@ -281,3 +281,41 @@ func CreateRequestStep2(alchemyRequestId int, signedByUserData []byte, uo UserOp
 
 	return jsonDATA, nil
 }
+
+// TODO: test
+func CreateRequestGetUserOperationByHash(operationHash string, id int) ([]byte, error) {
+	// {"jsonrpc":"2.0","id":11,"method":"eth_getUserOperationByHash","params":["0x5fad93d239e4e7a7dd634822513b27f04e57ed8ea1be7b3e74df177eefd8beb8"]}
+	var req JSONRPCRequestGetUserOperationReceipt
+	req.ID = id
+	req.JSONRPC = "2.0"
+	req.Method = "eth_getUserOperationByHash"
+	req.Hashes = append(req.Hashes, operationHash)
+
+	// 2 - convert struct to json
+	jsonDATA, err := json.Marshal(req)
+	if err != nil {
+		log.Error("can not marshal JSON", zap.Error(err))
+		return nil, err
+	}
+
+	return jsonDATA, nil
+}
+
+// TODO: test
+func DecodeResponseGetUserOperationByHash(response []byte) (ret *JSONRPCResponseGetUserOpByHash, err error) {
+	// {"jsonrpc":"2.0","id":2,"result":{"success": true}}
+	// 1 - parse JSON
+	var responseStruct2 JSONRPCResponseGetUserOpByHash
+	err = json.Unmarshal(response, &responseStruct2)
+	if err != nil {
+		log.Error("failed to unmarshal response", zap.Error(err))
+		return nil, err
+	}
+
+	if responseStruct2.Error.Code != 0 {
+		strErr := fmt.Sprintf("Error: %v - %v", responseStruct2.Error.Code, responseStruct2.Error.Message)
+		return nil, errors.New(strErr)
+	}
+
+	return &responseStruct2, nil
+}
